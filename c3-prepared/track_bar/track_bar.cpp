@@ -5,6 +5,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <vector>
 using namespace cv;
 using namespace std;
 
@@ -38,8 +39,8 @@ int main(int argc, char *argv[], char **env)
 {
     //先获取图像
     Mat pic1 = imread("left.jpg", IMREAD_COLOR), pic2 = imread("right.jpg", IMREAD_COLOR), dst;
-    Mat *tuple[3] = {&pic1, &pic2, &dst};
-    //将图像
+    vector<Mat *> tup = {&pic1, &pic2, &dst};
+    //将图像指针传递
 
     //滑块初始值
     int bar = 70;
@@ -48,7 +49,7 @@ int main(int argc, char *argv[], char **env)
     sprintf(name, "透明值 %d", MAX_ALPHA_VALUE);
     namedWindow("image_show");
 
-    createTrackbar(name, "image_show", &bar, 100, show_bar, &tuple);
+    createTrackbar(name, "image_show", &bar, 100, show_bar, tup.data());
     /*
     *这个函数可以创建轨迹条
     *第一个参数是轨迹条名字，第二个参数是轨迹条依附的窗口

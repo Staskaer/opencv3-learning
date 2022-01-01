@@ -27,9 +27,11 @@ bool draw_flag = false;
 //绘制的标记
 
 RNG g_rng(123456);
-//RNG类是opencv里C++的随机数产生器。它可产生一个64位的int随机数。
-//目前可按均匀分布和高斯分布产生随机数。
-//随机数的产生采用的是Multiply-With-Carry算法和Ziggurat算法。
+//RNG类是opencv里C++的随机数产生器。
+//next可以产生下一个随机数
+//uniform 可以返回指定范围随机数
+//gaussian可以返回高斯随机数
+//fill可以填充矩阵
 
 int main()
 {

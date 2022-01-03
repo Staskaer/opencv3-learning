@@ -55,11 +55,14 @@ void linear_add(void)
 {
     //线性混合使用addweighted函数，之前讲过
     //要求同尺寸的两张图按照指定参数混合
+    //此处是将roi线性混合
 
-    Mat pic1 = imread("left.jpg", IMREAD_COLOR), pic2 = imread("right.jpg", IMREAD_COLOR), dst;
-    vector<Mat *> tup = {&pic1, &pic2, &dst};
+    Mat pic1 = imread("left.jpg", IMREAD_COLOR), pic2 = imread("right.jpg", IMREAD_COLOR), copy;
+    Mat roi1 = pic1(Rect(100, 100, 500, 500)), roi2 = pic2(Rect(100, 100, 500, 500));
+    roi1.copyTo(copy);
+    vector<Mat *> tup = {&pic1, &pic2, &roi1, &roi2, &copy};
 
-    int alpha = 70;
+    int alpha = 10;
     namedWindow("addweighted", WINDOW_NORMAL);
     createTrackbar("bar", "addweighted", &alpha, 100, bar_callback, tup.data());
 
@@ -72,7 +75,11 @@ void bar_callback(int bar, void *temp)
     alpha_value = double(bar) / 100;
     beta_value = 1.0 - alpha_value;
 
-    Mat pic1 = *((Mat **)temp)[0], pic2 = *((Mat **)temp)[1], dst = *((Mat **)temp)[2];
-    addWeighted(pic1, alpha_value, pic2, beta_value, 0.0, dst);
-    imshow("addweighted", dst);
+    Mat pic1 = *((Mat **)temp)[0],
+        pic2 = *((Mat **)temp)[1],
+        roi1 = *((Mat **)temp)[2],
+        roi2 = *((Mat **)temp)[3],
+        copy = *((Mat **)temp)[4];
+    addWeighted(copy, alpha_value, roi2, beta_value, 0.0, roi1);
+    imshow("addweighted", pic1);
 }

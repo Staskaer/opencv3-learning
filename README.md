@@ -1,1 +1,1 @@
-# opencv3-learning
+# 是学习 opencv3 编程入门这本书时根据书上的示例写的代码
